@@ -1,7 +1,11 @@
-import {flowTake} from './flowTake'
 import {word} from './word'
+import {X} from './x/flowTake'
 
-export const attr = flowTake([word, '=', '"', word, '"'])
+import {XmlChars} from './word'
+
+const {idChars, valueChars} = XmlChars;
+
+export const attr = X.take([idChars, '=', '"', valueChars, '"'])
     .map(t => ({
         token: 'ATTR',
         name: t.at(0),

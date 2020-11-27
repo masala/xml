@@ -6,23 +6,11 @@ type TakeItemArray = [IParser<any>, Modifier] | [string, Modifier]
 type TakeItem = string | IParser<any> | TakeItemArray;
 
 export const X = {
-    take: flowTake,
-    inCharRange,
-    inCharRanges,
-    inChars
+    take,
+    inChars,
+    tryAll
 }
 
-function inCharRange(start: string, end: string) {
-    return F.satisfy((value: string) => start <= value && value <= end);
-}
-
-export type CharRange = [string, string];
-
-function inCharRanges(ranges: CharRange[]) {
-    return ranges.some(range =>
-        F.satisfy((value: string) => range[0] <= value && value <= range[1])
-    );
-}
 
 function inChars(strings: string[]) {
     return F.satisfy(function(value: string){
@@ -42,7 +30,7 @@ function inChars(strings: string[]) {
     })
 }
 
-export function flowTake(items: TakeItem[], debug = false): TupleParser<any> {
+function take(items: TakeItem[], debug = false): TupleParser<any> {
 
     if (items.length < 2) {
         throw "take array must have at least two items"
@@ -104,4 +92,16 @@ function takeArrayString(str: string, modifier: Modifier) {
     }
     // +
     return C.string(str).rep();
+}
+
+function tryAll(array: IParser<any>[]) {
+    if (array.length === 0) {
+        return F.nop();
+    }
+    let parser = F.try(array[0]);
+    for (let i = 1; i < array.length; i++) {
+        parser = parser.or(F.try(array[i]));
+    }
+
+    return parser;
 }
