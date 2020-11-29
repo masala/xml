@@ -1,7 +1,7 @@
 import {word, XmlChars} from './word'
 import {attr} from './attr'
 import { X} from './x/flowTake'
-import {F, C, Tuple, Option, SingleParser, TupleParser} from '@masala/parser'
+import {F, C, Tuple, Option, SingleParser, TupleParser, IParser} from '@masala/parser'
 import {Child, Tag} from '../xml'
 import {xmlNs} from './namespace'
 
@@ -34,7 +34,7 @@ export function anyCloseTag (){
         .map(t => ({token: 'CLOSE_TAG',tag:t.at(1)}));
 }
 
-export const text = C.notChar("<").rep().map(t=>t.join(''));
+export const text = C.notChar("<").rep().map(t=>t.join('').trim());
 
 export function tag():SingleParser<Tag>{
     return openTag.then (F.lazy(children).opt()).flatMap(function( t: Tuple<any>){
@@ -57,7 +57,10 @@ export function children():SingleParser<Child[]>{
     return F.try(tag()).or(text).rep().map(t=>t.array())
 }
 
-export const xmlParser = F.try(head.opt()).then(tag());
+const a = F.try(head.then(tag()))
+export const xmlParser = a.or(tag()) as IParser<any>;
+
+//export const xmlParser = F.try(head.then(tag())).or(tag());
 
 
 

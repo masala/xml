@@ -55,6 +55,49 @@ const response = tag().parse(Streams.ofString(
 
 ### More complex
 
+Given:
 
+```xml
+<xml>
+    Text
+    <r:simple f:a="1.0">Some value</r:simple>
+    <a></a>
+    Text
+</xml>
+```
 
+`value = xmlParser.val(xml)` gives:
 
+```json
+{
+  "token": "TAG",
+  "tag": "xml",
+  "attributes": [],
+  "children": [
+    "Text",
+    {
+      "token": "TAG",
+      "tag": "simple",
+      "attributes": [
+        {
+          "namespace": "f",
+          "token": "ATTR",
+          "name": "a",
+          "value": "1.0"
+        }
+      ],
+      "children": [
+        "Some value"
+      ]
+    },
+    {
+      "token": "TAG",
+      "tag": "a",
+      "attributes": [],
+      "children": []
+    },
+    "Text"
+  ]
+}
+
+```

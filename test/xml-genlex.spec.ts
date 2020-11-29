@@ -83,6 +83,29 @@ describe('Xml genlex', ()=>{
         expect(thirdChild).toBe('Lonely Text')
     })
 
+    test ('xmlParser header', ()=>{
+        const xml = '<?xml version="1.0" ?>';
+
+        const value = head.val(xml);
+        expect(value.token).toBe('HEADER');
+    })
+
+    test ('xmlParser header and simple tag', ()=>{
+        const xml = '<?xml version="1.0" ?> <root></root>';
+
+        const response = xmlParser.parse(Streams.ofString(xml));
+        expect(response.isAccepted()).toBeTruthy();
+    })
+
+    test ('xmlParser without header and simple tag', ()=>{
+        const xml = ' <root></root>';
+
+        const response = xmlParser.parse(Streams.ofString(xml));
+        expect(response.isAccepted()).toBeTruthy();
+        expect(response.value.tag).toBe("root")
+    })
+
+
     test('More complex xml', ()=>{
         const xml = `<xml>
     Text
@@ -90,7 +113,7 @@ describe('Xml genlex', ()=>{
     <a></a>
     Text
     </xml>`
-        const value = tag().val(xml);
+        const value = xmlParser.val(xml);
         expect(value).toBeDefined();
     })
 

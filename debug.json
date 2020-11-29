@@ -1,30 +1,30 @@
 {
   "token": "TAG",
-  "tag": "someTag",
-  "attributes": [
-    {
-      "token": "ATTR",
-      "name": "x",
-      "value": "y"
-    }
-  ],
+  "tag": "xml",
+  "attributes": [],
   "children": [
+    "Text",
+    {
+      "token": "TAG",
+      "tag": "simple",
+      "attributes": [
+        {
+          "namespace": "f",
+          "token": "ATTR",
+          "name": "a",
+          "value": "1.0"
+        }
+      ],
+      "children": [
+        "Some value"
+      ]
+    },
     {
       "token": "TAG",
       "tag": "a",
       "attributes": [],
-      "children": [
-        "Masala"
-      ]
+      "children": []
     },
-    {
-      "token": "TAG",
-      "tag": "b",
-      "attributes": [],
-      "children": [
-        "Text"
-      ]
-    },
-    "Lonely Text"
+    "Text"
   ]
 }
