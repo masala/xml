@@ -72,10 +72,10 @@ function takeString(str: string) {
 
 function takeArrayParser(parser: IParser<any>, modifier: Modifier) {
     if (modifier === '?') {
-        return parser.opt();
+        return F.try(parser).opt();
     }
     if (modifier === '*') {
-        return parser.optrep();
+        return F.try(parser).optrep();
     }
     // +
     return parser.rep();
@@ -85,10 +85,10 @@ function takeArrayParser(parser: IParser<any>, modifier: Modifier) {
 
 function takeArrayString(str: string, modifier: Modifier) {
     if (modifier === '?') {
-        return C.string(str).opt();
+        return F.try(C.string(str)).opt();
     }
     if (modifier === '*') {
-        return C.string(str).optrep();
+        return F.try(C.string(str)).optrep();
     }
     // +
     return C.string(str).rep();

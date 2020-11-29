@@ -1,4 +1,4 @@
-import {finalTag, head, openTag} from '../src/xml-genlex'
+import {tag, head, openTag, xmlParser} from '../src/xml-genlex'
 import {attr} from '../src/attr'
 import {Streams} from '@masala/parser'
 import {Tag} from '../xml'
@@ -38,14 +38,22 @@ describe('Xml genlex', ()=>{
     })
 
 
-    test('tag', ()=>{
+    test('simple open tag', ()=>{
         const value = openTag.val('<someTag x="y" a="b">')
         expect(value.token).toEqual('OPEN_TAG')
         expect(value.attributes).toHaveLength(2)
     })
 
+    test('openTag with namespace', ()=>{
+        const value = openTag.val('<x:someTag x="y" a="b">')
+
+        expect(value.token).toEqual('OPEN_TAG')
+        expect(value.namespace).toBe('x')
+        expect(value.attributes).toHaveLength(2)
+    })
+
     test('finalTag', ()=>{
-        const response = finalTag().parse(Streams.ofString(
+        const response = tag().parse(Streams.ofString(
             '<someTag x="y" a="b">Masala</someTag>'));
         expect(response.value.token).toEqual('TAG')
         expect(response.value.children).toHaveLength(1);
@@ -53,7 +61,7 @@ describe('Xml genlex', ()=>{
     })
 
     test('Tag with children', ()=>{
-        const response = finalTag().parse(Streams.ofString(
+        const response = tag().parse(Streams.ofString(
             '<someTag x="y" ><a>Masala</a></someTag>'));
         expect(response.value.token).toEqual('TAG')
         expect(response.value.children).toHaveLength(1);
@@ -62,7 +70,7 @@ describe('Xml genlex', ()=>{
     })
 
     test('Tag with two children', ()=>{
-        const response = finalTag().parse(Streams.ofString(
+        const response = tag().parse(Streams.ofString(
             '<someTag x="y" ><a>Masala</a><b>Text</b>Lonely Text</someTag>'));
         expect(response.value.token).toEqual('TAG')
         expect(response.value.children).toHaveLength(3);
@@ -75,5 +83,17 @@ describe('Xml genlex', ()=>{
         expect(thirdChild).toBe('Lonely Text')
     })
 
+    test('More complex xml', ()=>{
+        const xml = `<xml>
+    Text
+    <r:simple f:a="1.0">Some value</r:simple>
+    <a></a>
+    Text
+    </xml>`
+        const value = tag().val(xml);
+        expect(value).toBeDefined();
+    })
+
 
 })
+

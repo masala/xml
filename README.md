@@ -1,15 +1,18 @@
 # Xml
 
-Ultra naive Xml parser with Masala. No CDATA, no xmlns.
+Ultra naive Xml parser with Masala. No CDATA.
 
 The objective is to bring a parser simple enough so that you can customize it with your needs.
 
 # Exemples
 
+
+## Simple one 
+
 Given 
 
 ```javascript
-const response = finalTag().parse(Streams.ofString(
+const response = tag().parse(Streams.ofString(
             '<someTag x="y" ><a>Masala</a><b>Text</b>Lonely Text</someTag>'));
 
 ```
@@ -49,5 +52,9 @@ const response = finalTag().parse(Streams.ofString(
 }
 
 ```
+
+### More complex
+
+
 
 
