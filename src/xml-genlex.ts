@@ -1,7 +1,7 @@
 import {word, XmlChars} from './word'
 import {attr} from './attr'
 import { X} from './x/flowTake'
-import {F, C, Tuple, Option, SingleParser} from '@masala/parser'
+import {F, C, Tuple, Option, SingleParser, TupleParser} from '@masala/parser'
 import {Child, Tag} from '../xml'
 
 
@@ -52,7 +52,7 @@ export function manyTags(){
 }
 
 export function children():SingleParser<Child[]>{
-    return F.try(manyTags()).or(text.map(t => [t]))
+    return F.try(finalTag()).or(text).rep().map(t=>t.array())
 }
 
 /*

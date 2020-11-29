@@ -55,15 +55,19 @@ describe('Xml genlex', ()=>{
         expect(child.tag).toBe("a");
     })
 
-    test('Tag with various children', ()=>{
+    test('Tag with two children', ()=>{
         const response = finalTag().parse(Streams.ofString(
-            '<someTag x="y" ><a>Masala</a><b>Text</b></someTag>'));
+            '<someTag x="y" ><a>Masala</a><b>Text</b>Lonely Text</someTag>'));
         expect(response.value.token).toEqual('TAG')
-        expect(response.value.children).toHaveLength(2);
+        expect(response.value.children).toHaveLength(3);
         const child = response.value.children[0] as Tag
         expect(child.tag).toBe("a");
-        const textChild = response.value.children[1] as string
-        console.log({textChild});
+        const secondChild = response.value.children[1] as Tag
+        expect(secondChild.tag).toBe("b");
+        expect(secondChild.children[0]).toBe('Text')
+        const thirdChild = response.value.children[2] as string
+        expect(thirdChild).toBe('Lonely Text')
+        console.log(JSON.stringify(response.value));
     })
 
 

@@ -1,11 +1,30 @@
 {
-  "shop": {
-    "name": "ds<dsq",
-    "shopType": "Proximity Store",
-    "address": "qdqdqds",
-    "city": "qdqdq",
-    "country": "Cameroun",
-    "longitude": 9.716806411743164,
-    "latitude": 4.034651999546086
-  }
+  "token": "TAG",
+  "tag": "someTag",
+  "attributes": [
+    {
+      "token": "ATTR",
+      "name": "x",
+      "value": "y"
+    }
+  ],
+  "children": [
+    {
+      "token": "TAG",
+      "tag": "a",
+      "attributes": [],
+      "children": [
+        "Masala"
+      ]
+    },
+    {
+      "token": "TAG",
+      "tag": "b",
+      "attributes": [],
+      "children": [
+        "Text"
+      ]
+    },
+    "Lonely Text"
+  ]
 }
