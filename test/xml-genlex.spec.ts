@@ -7,7 +7,8 @@ describe('Xml genlex', ()=>{
 
 
     test('attributes', ()=>{
-        const value = attr.val('a="b"')
+        const response = attr.parse(Streams.ofString('a="b"'))
+        const value = response.value;
         expect(value.token).toEqual('ATTR')
         expect(value.name).toBe('a')
         expect(value.value).toBe('b')
@@ -23,6 +24,11 @@ describe('Xml genlex', ()=>{
     test('attributes with emoji value', ()=>{
         const value = attr.val('a="\U+1F436"')
         expect(value.token).toEqual('ATTR')
+    });
+
+    test('attributes with namespace', ()=>{
+        const value = attr.val('finland:a="\U+1F436"')
+        expect(value.namespace).toEqual('finland')
     });
 
     test('header', ()=>{
@@ -67,7 +73,6 @@ describe('Xml genlex', ()=>{
         expect(secondChild.children[0]).toBe('Text')
         const thirdChild = response.value.children[2] as string
         expect(thirdChild).toBe('Lonely Text')
-        console.log(JSON.stringify(response.value));
     })
 
 
