@@ -1,4 +1,4 @@
-import {head, tag} from '../src/xml-genlex'
+import {head, openTag} from '../src/xml-genlex'
 import {attr} from '../src/attr'
 
 describe('Xml genlex', ()=>{
@@ -18,6 +18,11 @@ describe('Xml genlex', ()=>{
 
     })
 
+    test('attributes with emoji value', ()=>{
+        const value = attr.val('a="\U+1F436"')
+        expect(value.token).toEqual('ATTR')
+    });
+
     test('header', ()=>{
         const value = head.val('<?xml version="1.0" encoding="UTF-8" ?>')
         expect(value.token).toEqual('HEADER')
@@ -26,12 +31,9 @@ describe('Xml genlex', ()=>{
 
 
     test('tag', ()=>{
-        const value = tag.val('<someTag x="y" a="b">')
-        expect(value.token).toEqual('TAG')
+        const value = openTag.val('<someTag x="y" a="b">')
+        expect(value.token).toEqual('OPEN_TAG')
         expect(value.attributes).toHaveLength(2)
-
-
-
     })
 
 
