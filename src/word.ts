@@ -13,6 +13,10 @@ const idChars = idChar.rep().map(t=>t.join(''))
 const valueChar = C.notChar('"');
 const valueChars = valueChar.rep().map(t=>t.join(''))
 
+
+
+
+
 // important about chars in Javascript: https://stackoverflow.com/questions/22312364/printing-emojis-with-javascript-and-html
 export const XmlChars = {
     idChars,

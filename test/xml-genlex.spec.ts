@@ -1,5 +1,7 @@
-import {head, openTag} from '../src/xml-genlex'
+import {finalTag, head, openTag} from '../src/xml-genlex'
 import {attr} from '../src/attr'
+import {Streams} from '@masala/parser'
+import {Tag} from '../xml'
 
 describe('Xml genlex', ()=>{
 
@@ -34,6 +36,34 @@ describe('Xml genlex', ()=>{
         const value = openTag.val('<someTag x="y" a="b">')
         expect(value.token).toEqual('OPEN_TAG')
         expect(value.attributes).toHaveLength(2)
+    })
+
+    test('finalTag', ()=>{
+        const response = finalTag().parse(Streams.ofString(
+            '<someTag x="y" a="b">Masala</someTag>'));
+        expect(response.value.token).toEqual('TAG')
+        expect(response.value.children).toHaveLength(1);
+        expect(response.value.attributes).toHaveLength(2);
+    })
+
+    test('Tag with children', ()=>{
+        const response = finalTag().parse(Streams.ofString(
+            '<someTag x="y" ><a>Masala</a></someTag>'));
+        expect(response.value.token).toEqual('TAG')
+        expect(response.value.children).toHaveLength(1);
+        const child = response.value.children[0] as Tag
+        expect(child.tag).toBe("a");
+    })
+
+    test('Tag with various children', ()=>{
+        const response = finalTag().parse(Streams.ofString(
+            '<someTag x="y" ><a>Masala</a><b>Text</b></someTag>'));
+        expect(response.value.token).toEqual('TAG')
+        expect(response.value.children).toHaveLength(2);
+        const child = response.value.children[0] as Tag
+        expect(child.tag).toBe("a");
+        const textChild = response.value.children[1] as string
+        console.log({textChild});
     })
 
 
