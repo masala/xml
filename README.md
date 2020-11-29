@@ -78,6 +78,7 @@ Given:
     {
       "token": "TAG",
       "tag": "simple",
+      "namespace": "r",
       "attributes": [
         {
           "namespace": "f",
@@ -99,5 +100,4 @@ Given:
     "Text"
   ]
 }
-
 ```

@@ -45,7 +45,7 @@ export function tag():SingleParser<Tag>{
 
         const tagName= openTag.tag;
         const token = 'TAG' as const;
-        return closeTag(tagName).returns({token,tag:tagName, attributes:openTag.attributes, children});
+        return closeTag(tagName).returns({token,tag:tagName, namespace:openTag.namespace, attributes:openTag.attributes, children});
     });
 }
 
