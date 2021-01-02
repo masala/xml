@@ -1,3 +1,4 @@
+import {IParser, SingleParser} from '@masala/parser'
 
 export interface Attribute {
     token: 'ATTR',
@@ -13,5 +14,10 @@ export interface Tag {
     children:Child[],
     namespace?:string
 }
+
+export interface XmlParser extends IParser<Tag>{
+
+}
+export type TagParser  = SingleParser<Tag>;
 
 export type Child = string | Tag
